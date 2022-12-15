@@ -12,8 +12,7 @@ const initialList =
       thingsToDo: [
         {
           task: "Do math work",
-          isFinished: false
-        },
+          isFinished: false        },
         {
           task: "Do physics work", 
           isFinished: true

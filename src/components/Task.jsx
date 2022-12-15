@@ -67,8 +67,19 @@ const Task = (props) => {
             </h1>
           </div>
         )
-        }) : 
-        <h1> Liste vide pour le moment... </h1>
+      }) :
+      (
+        <div
+          className="h-full flex flex-auto justify-center items-center"
+        >
+          <p
+            className="text-5xl border-4 p-4 rounded-2xl bg-slate-800"
+          >
+            Liste vide pour le moment...
+          </p>
+        </div>
+      )
+
       }
     </React.Fragment>
   )
