@@ -9,10 +9,6 @@ const validationSchema = yup.object().shape({
   listName: yup.string().required().max(100, "Max 100 characters for list's name.").label("List")
 });
 
-const initialValues = {
-  name: ""
-}
-
 
 const FormComp = () => {
 
@@ -20,23 +16,61 @@ const FormComp = () => {
   const [activeList, setActiveList] = useContext(ActiveListContext);
   const [formType, setFormType] = useContext(FormTypeContext);
 
-  // const initialValues = useMemo(() => {
-  //   switch (formType) {
-  //     case 'addList':
-  //       return {
-  //         listName: "",
-  //       };
-            
-  //     case 'addTask': 
-  //       return {
-  //         task: "",
-  //       }
+  const [inputInfos, setInputInfos] = useState([]);
+
+  useEffect(() => {
+    if (formType === "addList"){
+      setInputInfos(['Nom de la liste', "Mettez le nom de la liste !"]);
+    }
+
+    if (formType === "editList"){
+      setInputInfos(['Nom de la liste', "Mettez le nouveau nom de la liste !"]);
+    }
+
+    if (formType === "addTask"){
+      setInputInfos(['Nom de la tâche', "Quelle est la tâche à faire ? "]);
+    }
+
+    if (formType.includes("editTask")){
+      setInputInfos(['Nom de la tâche', "Modifiez le nom de la tâche !"]);
+    }
+
+  }, [formType]);
+
+
+  const initialValues = useMemo(() => {
+    const formTypeSubStr = formType.replace(/[0-9]/g, ''); 
+    const taskIndex = formType.replace(/\D/g,''); 
+
+    switch (formType) {
+      case 'addList':
+        return {
+          listName: "",
+        };
       
-  //   }
-  // }, [formType]);
+      case 'editList':
+        return {
+          listName: activeList.name
+        }
+            
+      case 'addTask': 
+        return {
+          listName: "",
+        }
+      
+      // Edit task
+      case formTypeSubStr + taskIndex: 
+        return {
+          listName: "",
+        }
+      
+      default: 
+        return {
+          listName: "",
+        }
+    }
+  }, [formType]);
 
-
-  console.log(initialValues)
 
 
   const getAvailableId = useCallback(() => {
@@ -61,6 +95,8 @@ const FormComp = () => {
   const handleSubmit = useCallback(({listName}, { resetForm }) => {
 
     console.log("handleSubmit appellée ! ");
+    const formTypeSubStr = formType.replace(/[0-9]/g, ''); 
+    const taskIndex = formType.replace(/\D/g,''); 
 
     let type = formType;
     switch (type) {
@@ -74,9 +110,27 @@ const FormComp = () => {
 
         setLists((lists) => [...lists, newList]);
 
+        setActiveList(newList); 
+
         resetForm();
         setFormType("");
         break; 
+      
+      case 'editList':        
+        let updatedList = activeList; 
+        updatedList.name = listName;
+
+        setLists(lists.map((list) => {
+          if (list.id === updatedList.id) {
+            return updatedList; 
+          }
+
+          return (list);
+        }))
+        
+        setFormType('');
+        resetForm();
+        break;
       
       case 'addTask':
 
@@ -101,16 +155,31 @@ const FormComp = () => {
         setFormType("");
         break;
       
-        // setActiveList({
-        //   ...activeList,
-        //   thingsToDo: [
-        //     ...activeList.thingsToDo,
-        //     newTask
-        //   ]
-        // });
       
-      case 'editList':
+      // Edit task
+      case formTypeSubStr + taskIndex :
+        const taskIndexInt = Number.parseInt(taskIndex); 
+
+        const updatedTask = {
+          task: listName,
+          isFinished: activeList.thingsToDo[taskIndexInt].isFinished
+        }
+
+        let updatedActiveListTasks = activeList; 
+        updatedActiveListTasks.thingsToDo.splice(taskIndexInt, 1, updatedTask);
+
+        setActiveList(updatedActiveListTasks); 
+
+        setLists(lists.map((list) => {
+          if (list.id === activeList.id) {
+            return activeList;
+          }
+
+          return list;
+        }))
         
+        resetForm();
+        setFormType("");
         break; 
     }
 
@@ -123,15 +192,14 @@ const FormComp = () => {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
-        validator={() => ({name:"c bon"})}
       >
         <Form className="flex flex-col gap-4 p-4">
 
-          {formType === "addList" ?
+          {formType !== "" ?
             <FormInput
               name="listName"
-              label="Nom"
-              placeholder="Nom de la liste"
+              label={inputInfos[0]}
+              placeholder={inputInfos[1]}
               type="text"
               className="border-2 border-indigo-700"
               /> 
@@ -139,22 +207,11 @@ const FormComp = () => {
             null
           }
 
-          {formType === "addTask" ?
-            <FormInput
-              name="listName"
-              label="Nom de la tâche"
-              placeholder="La tâche"
-              type="text"
-              className="border-2 border-indigo-700"
-              /> 
-              : 
-            null 
-          }
-
           <button
             type="submit"
+            className='bg-slate-700 w-fit mx-auto px-3 py-2 rounded-xl'
           >
-            SUBMIT
+            {formType.includes('add') ? "Ajouter" : "Modifier"}
           </button>
         </Form>
       </Formik>

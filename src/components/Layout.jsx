@@ -7,34 +7,13 @@ import Link from 'next/link';
 
 const Layout = (props) => {
   
-  const { children } = props; 
-  
-  const [lists, setLists] = useContext(ListContext);
-  const [formType, setFormType] = useContext(FormTypeContext); 
-    
-  const testList = {
-    name: "test",
-    thingsToDo: [
-      {
-        task: "Do test work",
-        isFinished: true
-      }
-    ]
-  }
-
-  // const addList = useCallback(() => {
-
-  //   setLists([...lists, testList]);
-
-  // }, [lists, setLists])
+  const { children, activeList, lists, setFormType } = props; 
 
   const handleForm = useCallback((e) => {
     const formTypeDataset = e.target.dataset.formtype; 
 
     setFormType(formTypeDataset);
   }, [setFormType])
-
-    console.log(formType)
 
   return (
     <div
@@ -44,17 +23,25 @@ const Layout = (props) => {
         className="sticky top-0"
       >
         <nav
-          className="border-2 border-solid border-sky-100 flex gap-[1px] p-0 overflow-scroll"
+          className="flex gap-[1px] p-0 overflow-scroll"
         >
           {lists.map((listItem, index) => {
+            const activeListIndex = lists.findIndex(list => list.id === activeList.id); 
 
+            const isActiveList = index === activeListIndex ? true : false; 
+
+            let activeClassName = isActiveList ?
+              "flex p-3 bg-slate-900 rounded-t-lg gap-3 border border-slate-500 cursor-pointer relative border-b-0"
+              :
+              "flex p-3 bg-slate-700 rounded-t-lg gap-3 border border-slate-500 cursor-pointer relative border-b-0"
+            
             return (
-              <ListHeader key={index} listItem={listItem} index={index} /> 
+              <ListHeader key={index} listItem={listItem} index={index} activeClassName={activeClassName} /> 
             )
           })}
 
           <button
-            className="bg-slate-700 border border-slate-500 rounded-lg px-3 ml-4"
+            className="bg-slate-700 border border-b-0 border-slate-500 rounded-t-lg px-3 ml-4"
             data-formtype="addList"
             onClick={(e) => handleForm(e)}
           >
@@ -63,10 +50,8 @@ const Layout = (props) => {
         </nav>
 
         <ActionNav />
-
       </div>
 
-      {/* the selected to do list is supposed to be here */}
       {children}
 
     </div>

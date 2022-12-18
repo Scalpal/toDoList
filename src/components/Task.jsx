@@ -1,14 +1,16 @@
 import React, { useContext, useEffect, useState, useCallback } from "react";
-import { ActiveListContext, ListContext } from "../pages/_app";
+import { FormTypeContext, ListContext } from "../pages/_app";
 import {CheckIcon} from '@heroicons/react/24/solid'
 
 
 const Task = (props) => {
 
-  const [activeList, setActiveList] = useContext(ActiveListContext);
-  const [lists, setLists] = useContext(ListContext); 
-  const tasks = activeList.thingsToDo;
+  const { activeList } = props; 
 
+  const [lists, setLists] = useContext(ListContext);
+  const [formType, setFormType] = useContext(FormTypeContext);
+
+  const tasks = activeList.thingsToDo;
 
   const handleChange = (e) => {
     const isChecked = e.currentTarget.checked; 
@@ -33,16 +35,21 @@ const Task = (props) => {
     return;
   }
 
+  const handleEditTask = useCallback((taskIndex) => {
+    setFormType("editTask" + taskIndex);
+
+  }, [setFormType])
+
   return (
     <React.Fragment>
       {tasks.length > 0 ? tasks.map(({ task, isFinished }, taskIndex) => {
         return (
           <div
             key={taskIndex}
-            className="flex items-center gap-8 bg-slate-800 border-b-2 border-b-slate-500 px-4"
+            className="flex items-center gap-8 bg-slate-800 border-b border-b-slate-500 px-4"
           >
             <label
-              for={task}
+              htmlFor={task}
               className='w-11 h-11 rounded-full border-2 p-2 my-4 duration-300'
               style={{
                 backgroundColor: isFinished ? 'rgb(7 89 133)' : 'rgb(148 163 184)',
@@ -60,11 +67,12 @@ const Task = (props) => {
               onChange={(e) => {handleChange(e)}}
             />
             
-            <h1
-              className="text-slate-50"
+            <p
+              className="text-slate-50 cursor-pointer"
+              onClick={() => handleEditTask(taskIndex)}
             >
               {task}
-            </h1>
+            </p>
           </div>
         )
       }) :

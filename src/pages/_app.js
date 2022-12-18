@@ -12,7 +12,8 @@ const initialList =
       thingsToDo: [
         {
           task: "Do math work",
-          isFinished: false        },
+          isFinished: false
+        },
         {
           task: "Do physics work", 
           isFinished: true
@@ -54,8 +55,8 @@ function MyApp({ Component, pageProps }) {
     <ListContext.Provider value={[lists, setLists]}>
     <ActiveListContext.Provider value={[activeList, setActiveList]}>
      
-      <Layout> 
-        {formType !== "" ? <FormComp /> : <Task {...pageProps} />}
+      <Layout activeList={activeList} lists={lists} setFormType={setFormType} > 
+        {formType !== "" ? <FormComp /> : <Task activeList={activeList} />}
 
       </Layout>
 
