@@ -43,23 +43,26 @@ const initialList =
 export const ActiveListContext = createContext(null);
 export const ListContext = createContext(null);
 export const FormTypeContext = createContext(null); 
+export const ShowNonFinishedContext = createContext(null); 
 
 function MyApp({ Component, pageProps }) {
 
   const [lists, setLists] = useState(initialList); 
   const [activeList, setActiveList] = useState(initialList[0]); 
   const [formType, setFormType] = useState("");
+  const [showNonFinished, setShowNonFinished] = useState(false);
 
   return (
     <FormTypeContext.Provider value={[formType, setFormType]}>
     <ListContext.Provider value={[lists, setLists]}>
     <ActiveListContext.Provider value={[activeList, setActiveList]}>
+    <ShowNonFinishedContext.Provider value={[showNonFinished, setShowNonFinished]}>
      
       <Layout activeList={activeList} lists={lists} setFormType={setFormType} > 
         {formType !== "" ? <FormComp /> : <Task activeList={activeList} />}
 
       </Layout>
-
+    </ShowNonFinishedContext.Provider>
     </ActiveListContext.Provider>
     </ListContext.Provider>
     </FormTypeContext.Provider>

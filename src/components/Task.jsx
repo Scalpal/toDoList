@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useCallback } from "react";
-import { FormTypeContext, ListContext } from "../pages/_app";
+import { FormTypeContext, ListContext, ShowNonFinishedContext } from "../pages/_app";
 import {CheckIcon} from '@heroicons/react/24/solid'
 
 
@@ -9,6 +9,7 @@ const Task = (props) => {
 
   const [lists, setLists] = useContext(ListContext);
   const [formType, setFormType] = useContext(FormTypeContext);
+  const [showNonFinished, setShowNonFinished] = useContext(ShowNonFinishedContext);
 
   const tasks = activeList.thingsToDo;
 
@@ -43,10 +44,12 @@ const Task = (props) => {
   return (
     <React.Fragment>
       {tasks.length > 0 ? tasks.map(({ task, isFinished }, taskIndex) => {
+    
         return (
           <div
             key={taskIndex}
             className="flex items-center gap-8 bg-slate-800 border-b border-b-slate-500 px-4"
+            style={{ display: showNonFinished && isFinished === true ? "none" : "flex" }}
           >
             <label
               htmlFor={task}
