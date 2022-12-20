@@ -59,7 +59,7 @@ function MyApp({ Component, pageProps }) {
     <ShowNonFinishedContext.Provider value={[showNonFinished, setShowNonFinished]}>
      
       <Layout activeList={activeList} lists={lists} setFormType={setFormType} > 
-        {formType !== "" ? <FormComp /> : <Task activeList={activeList} />}
+        {formType !== "" ? <FormComp /> : <Task activeList={activeList} setActiveList={setActiveList} />}
 
       </Layout>
     </ShowNonFinishedContext.Provider>

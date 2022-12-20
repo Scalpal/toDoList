@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState, useCallback } from "react";
 import { FormTypeContext, ListContext, ShowNonFinishedContext } from "../pages/_app";
-import {CheckIcon} from '@heroicons/react/24/solid'
+import { CheckIcon , TrashIcon } from '@heroicons/react/24/solid'
 
 
 const Task = (props) => {
 
-  const { activeList } = props; 
+  const { activeList, setActiveList } = props; 
 
   const [lists, setLists] = useContext(ListContext);
   const [formType, setFormType] = useContext(FormTypeContext);
@@ -41,6 +41,22 @@ const Task = (props) => {
 
   }, [setFormType])
 
+  const handleDeleteTask = useCallback((taskIndex) => {
+    let updatedActiveList = activeList; 
+    updatedActiveList.thingsToDo.splice(taskIndex, 1);
+
+    setActiveList(updatedActiveList);
+
+    setLists(lists.map((list) => {
+      if (list.id === activeList.id) {
+        return activeList;
+      }
+
+      return list;
+    }));
+
+  }, [activeList, lists, setActiveList, setLists]); 
+
   return (
     <React.Fragment>
       {tasks.length > 0 ? tasks.map(({ task, isFinished }, taskIndex) => {
@@ -48,12 +64,13 @@ const Task = (props) => {
         return (
           <div
             key={taskIndex}
-            className="flex items-center gap-8 bg-slate-800 border-b border-b-slate-500 px-4"
+            className="flex items-center relative gap-8 bg-slate-800 border-b border-b-slate-500 px-4"
             style={{ display: showNonFinished && isFinished === true ? "none" : "flex" }}
           >
             <label
               htmlFor={task}
-              className='w-11 h-11 rounded-full border-2 p-2 my-4 duration-300'
+              className='w-11 h-11 min-w-[2.75rem] min-h-[2.75rem] max-w-[2.75rem] max-h-[2.75rem] 
+              rounded-full border-2 p-2 my-4 duration-300'
               style={{
                 backgroundColor: isFinished ? 'rgb(7 89 133)' : 'rgb(148 163 184)',
                 borderColor: isFinished ? 'rgb(7 89 133)' : 'rgb(255 255 255)',
@@ -71,11 +88,16 @@ const Task = (props) => {
             />
             
             <p
-              className="text-slate-50 cursor-pointer"
+              className="text-slate-50 cursor-pointer my-3"
               onClick={() => handleEditTask(taskIndex)}
             >
               {task}
             </p>
+
+            <TrashIcon
+              className="w-9 h-9 ml-auto cursor-pointer"
+              onClick={() => {handleDeleteTask(taskIndex)}}
+            /> 
           </div>
         )
       }) :
@@ -84,7 +106,7 @@ const Task = (props) => {
           className="h-full flex flex-auto justify-center items-center"
         >
           <p
-            className="text-5xl border-4 p-4 rounded-2xl bg-slate-800"
+            className="text-5xl border-4 p-4 rounded-2xl bg-slate-800 whitespace-normal" 
           >
             Liste vide pour le moment...
           </p>

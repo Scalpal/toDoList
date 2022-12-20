@@ -36,7 +36,11 @@ const ListHeader = (props) => {
 
   useEffect(() => {
     setProgressBarWidth((tasksFinishedCount / totalTasks) * 100); 
-    
+
+    // Goes to infinite when Ó
+    if (progressBarWidth > 100) {
+      setProgressBarWidth(0);
+    }
   },[tasksFinishedCount, totalTasks, progressBarWidth])
 
   const handleActiveList = useCallback(() => {
