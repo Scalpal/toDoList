@@ -64,7 +64,7 @@ const Task = (props) => {
         return (
           <div
             key={taskIndex}
-            className="flex items-center relative gap-8 bg-slate-800 border-b border-b-slate-500 px-4"
+            className="group/task flex items-center relative gap-8 bg-slate-800 border-b border-b-slate-500 px-4"
             style={{ display: showNonFinished && isFinished === true ? "none" : "flex" }}
           >
             <label
@@ -95,7 +95,7 @@ const Task = (props) => {
             </p>
 
             <TrashIcon
-              className="w-9 h-9 ml-auto cursor-pointer"
+              className="invisible group-hover/task:visible w-9 h-9 ml-auto mr-2 cursor-pointer"
               onClick={() => {handleDeleteTask(taskIndex)}}
             /> 
           </div>
