@@ -6,7 +6,7 @@ import { ActiveListContext, FormTypeContext, ListContext } from '../pages/_app';
 
 
 const validationSchema = yup.object().shape({
-  listName: yup.string().required().max(100, "Max 100 characters for list's name.").label("List")
+  inputValue: yup.string().required().max(100, "Max 100 characters for list's name.").label("List")
 });
 
 
@@ -45,28 +45,28 @@ const FormComp = () => {
     switch (formType) {
       case 'addList':
         return {
-          listName: "",
+          inputValue: "",
         };
       
       case 'editList':
         return {
-          listName: activeList.name
+          inputValue: "",
         }
             
       case 'addTask': 
         return {
-          listName: "",
+          inputValue: "",
         }
       
       // Edit task
       case formTypeSubStr + taskIndex: 
         return {
-          listName: "",
+          inputValue: "",
         }
       
       default: 
         return {
-          listName: "",
+          inputValue: "",
         }
     }
   }, [formType]);
@@ -92,7 +92,7 @@ const FormComp = () => {
     }
   }, [lists]);
 
-  const handleSubmit = useCallback(({listName}, { resetForm }) => {
+  const handleSubmit = useCallback(({inputValue}, { resetForm }) => {
 
     console.log("handleSubmit appellée ! ");
     const formTypeSubStr = formType.replace(/[0-9]/g, ''); 
@@ -104,7 +104,7 @@ const FormComp = () => {
 
         const newList = {
           id: getAvailableId(),
-          name: listName,
+          name: inputValue,
           thingsToDo: []
         }
 
@@ -118,7 +118,7 @@ const FormComp = () => {
       
       case 'editList':        
         let updatedList = activeList; 
-        updatedList.name = listName;
+        updatedList.name = inputValue;
 
         setLists(lists.map((list) => {
           if (list.id === updatedList.id) {
@@ -135,7 +135,7 @@ const FormComp = () => {
       case 'addTask':
 
         let newTask = {
-          task: listName,
+          task: inputValue,
           isFinished: false
         }
 
@@ -161,7 +161,7 @@ const FormComp = () => {
         const taskIndexInt = Number.parseInt(taskIndex); 
 
         const updatedTask = {
-          task: listName,
+          task: inputValue,
           isFinished: activeList.thingsToDo[taskIndexInt].isFinished
         }
 
@@ -188,6 +188,19 @@ const FormComp = () => {
   return (
 
     <div>
+
+      {formType.includes("edit") ? (
+        <p
+          className='text-center text-2xl mt-8 font-medium'
+        >
+          Nom {formType === "editList" ?
+          `de la liste actuelle : ${activeList.name}` :
+          `de la tâche actuelle : ${activeList.thingsToDo[Number.parseInt(formType.replace(/\D/g, ''))].task}`}
+        </p>
+      ): 
+        null
+      }
+
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -197,7 +210,7 @@ const FormComp = () => {
 
           {formType !== "" ?
             <FormInput
-              name="listName"
+              name="inputValue"
               label={inputInfos[0]}
               placeholder={inputInfos[1]}
               type="text"
