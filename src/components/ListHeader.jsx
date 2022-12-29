@@ -1,9 +1,11 @@
+import { useRouter } from "next/router";
 import { useEffect, useState, useCallback, useContext } from "react";
-import { ActiveListContext, FormTypeContext, ListContext } from "../pages/_app";
+import { ActiveListContext, ListContext } from "../pages/_app";
 
 const ListHeader = (props) => {
 
   const { listItem, index, activeClassName } = props; 
+  const router = useRouter();
   
   // let totalTasks = listItem.thingsToDo.length;
   const [tasksFinishedCount, setTasksFinishedCount] = useState(0);
@@ -11,7 +13,6 @@ const ListHeader = (props) => {
   
   const [activeList, setActiveList] = useContext(ActiveListContext);
   const [lists, setLists] = useContext(ListContext);
-  const [formType, setFormType] = useContext(FormTypeContext); 
 
   // Using this to get a copy of the list element at this index 
   const listIndex = lists.findIndex((element) => element.id === listItem.id);
@@ -37,17 +38,17 @@ const ListHeader = (props) => {
   useEffect(() => {
     setProgressBarWidth((tasksFinishedCount / totalTasks) * 100); 
 
-    // Goes to infinite when Ó
+    // Goes to infinite when 0
     if (progressBarWidth > 100) {
       setProgressBarWidth(0);
     }
   },[tasksFinishedCount, totalTasks, progressBarWidth])
 
   const handleActiveList = useCallback(() => {
-    setFormType("");
+    router.push('/');
     setActiveList(listItem);
 
-  }, [listItem, setActiveList, setFormType])
+  }, [listItem, setActiveList, router])
 
   
   return (

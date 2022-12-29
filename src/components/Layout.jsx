@@ -1,19 +1,21 @@
 import ListHeader from "./ListHeader";
 import { useCallback, useContext, useEffect } from "react";
 import ActionNav from "./ActionNav";
-import { FormTypeContext, ListContext } from '../pages/_app';
+import { ListContext } from '../pages/_app';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 
 const Layout = (props) => {
   
-  const { children, activeList, lists, setFormType } = props; 
+  const { children, activeList, lists } = props; 
+  const router = useRouter();
+  const currentRoute = router.asPath;
 
-  const handleForm = useCallback((e) => {
-    const formTypeDataset = e.target.dataset.formtype; 
+  const handleForm = useCallback(() => {
+    router.push("/addList");
 
-    setFormType(formTypeDataset);
-  }, [setFormType])
+  }, [router])
 
   return (
     <div
@@ -42,8 +44,7 @@ const Layout = (props) => {
 
           <button
             className="bg-slate-700 border border-b-0 border-slate-500 rounded-t-lg px-3 ml-4"
-            data-formtype="addList"
-            onClick={(e) => handleForm(e)}
+            onClick={() => handleForm()}
           >
             +
           </button>

@@ -1,14 +1,15 @@
 import React, { useContext, useEffect, useState, useCallback } from "react";
-import { FormTypeContext, ListContext, ShowNonFinishedContext } from "../pages/_app";
-import { CheckIcon , TrashIcon } from '@heroicons/react/24/solid'
-
-
+import { ListContext, ShowNonFinishedContext } from "../pages/_app";
+import { CheckIcon, TrashIcon } from '@heroicons/react/24/solid';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+ 
 const Task = (props) => {
 
+  const router = useRouter();
   const { activeList, setActiveList } = props; 
 
   const [lists, setLists] = useContext(ListContext);
-  const [formType, setFormType] = useContext(FormTypeContext);
   const [showNonFinished, setShowNonFinished] = useContext(ShowNonFinishedContext);
 
   const tasks = activeList.thingsToDo;
@@ -37,9 +38,9 @@ const Task = (props) => {
   }
 
   const handleEditTask = useCallback((taskIndex) => {
-    setFormType("editTask" + taskIndex);
+    router.push("editTask/" + taskIndex);
 
-  }, [setFormType])
+  }, [router])
 
   const handleDeleteTask = useCallback((taskIndex) => {
     let updatedActiveList = activeList; 
@@ -87,12 +88,12 @@ const Task = (props) => {
               onChange={(e) => {handleChange(e)}}
             />
             
-            <p
+            <Link
               className="text-slate-50 cursor-pointer my-3"
-              onClick={() => handleEditTask(taskIndex)}
+              href={`editTask/${taskIndex}`}
             >
               {task}
-            </p>
+            </Link>
 
             <TrashIcon
               className="invisible group-hover/task:visible w-9 h-9 ml-auto mr-2 cursor-pointer"

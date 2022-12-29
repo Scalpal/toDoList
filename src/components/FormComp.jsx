@@ -1,77 +1,59 @@
-import { Formik, Form, setIn } from 'formik';
+import { Formik, Form } from 'formik';
 import * as yup from "yup";
 import FormInput from './FormInput';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { ActiveListContext, FormTypeContext, ListContext } from '../pages/_app';
+import { ActiveListContext, ListContext } from '../pages/_app';
+import { useRouter } from 'next/router'
 
 
 const validationSchema = yup.object().shape({
   inputValue: yup.string().required().max(100, "Max 100 characters for list's name.").label("List")
 });
 
-
 const FormComp = () => {
+
+  const router = useRouter();
+  const currentRoute = router.asPath.replace('/', ""); 
+  console.log("router : ",router);
 
   const [lists, setLists] = useContext(ListContext);
   const [activeList, setActiveList] = useContext(ActiveListContext);
-  const [formType, setFormType] = useContext(FormTypeContext);
+  const [taskIndex, setTaskIndex] = useState(null); 
 
   const [inputInfos, setInputInfos] = useState([]);
 
+  // console.log('squid game : ', Number.parseInt(router.query.taskIndex))
+
+    useEffect(() => {
+      const {taskIndex} = router.query  
+      if(taskIndex) {
+        setTaskIndex(taskIndex);
+      }
+
+    }, [router])
+
   useEffect(() => {
-    if (formType === "addList"){
+    if (currentRoute === "addList"){
       setInputInfos(['Nom de la liste', "Mettez le nom de la liste !"]);
     }
 
-    if (formType === "editList"){
+    if (currentRoute === "editList"){
       setInputInfos(['Nom de la liste', "Mettez le nouveau nom de la liste !"]);
     }
 
-    if (formType === "addTask"){
+    if (currentRoute === "addTask"){
       setInputInfos(['Nom de la tâche', "Quelle est la tâche à faire ? "]);
     }
 
-    if (formType.includes("editTask")){
+    if (currentRoute.includes("editTask")){
       setInputInfos(['Nom de la tâche', "Modifiez le nom de la tâche !"]);
     }
 
-  }, [formType]);
-
-
-  const initialValues = useMemo(() => {
-    const formTypeSubStr = formType.replace(/[0-9]/g, ''); 
-    const taskIndex = formType.replace(/\D/g,''); 
-
-    switch (formType) {
-      case 'addList':
-        return {
-          inputValue: "",
-        };
-      
-      case 'editList':
-        return {
-          inputValue: "",
-        }
-            
-      case 'addTask': 
-        return {
-          inputValue: "",
-        }
-      
-      // Edit task
-      case formTypeSubStr + taskIndex: 
-        return {
-          inputValue: "",
-        }
-      
-      default: 
-        return {
-          inputValue: "",
-        }
-    }
-  }, [formType]);
-
-
+  }, [currentRoute]);
+  
+  const initialValues = {
+    inputValue: ""
+  };
 
   const getAvailableId = useCallback(() => {
     const usedIds = [];
@@ -93,12 +75,10 @@ const FormComp = () => {
   }, [lists]);
 
   const handleSubmit = useCallback(({inputValue}, { resetForm }) => {
-
     console.log("handleSubmit appellée ! ");
-    const formTypeSubStr = formType.replace(/[0-9]/g, ''); 
-    const taskIndex = formType.replace(/\D/g,''); 
 
-    let type = formType;
+    let type = currentRoute;
+
     switch (type) {
       case 'addList':
 
@@ -113,7 +93,7 @@ const FormComp = () => {
         setActiveList(newList); 
 
         resetForm();
-        setFormType("");
+        router.push('/');
         break; 
       
       case 'editList':        
@@ -128,8 +108,8 @@ const FormComp = () => {
           return (list);
         }))
         
-        setFormType('');
         resetForm();
+        router.push('/');
         break;
       
       case 'addTask':
@@ -152,13 +132,13 @@ const FormComp = () => {
         }))
 
         resetForm();
-        setFormType("");
+        router.push('/');
         break;
       
       
       // Edit task
-      case formTypeSubStr + taskIndex :
-        const taskIndexInt = Number.parseInt(taskIndex); 
+      case "editTask/" + router.query.taskIndex :
+        const taskIndexInt = Number.parseInt(router.query.taskIndex); 
 
         const updatedTask = {
           task: inputValue,
@@ -179,23 +159,24 @@ const FormComp = () => {
         }))
         
         resetForm();
-        setFormType("");
+        router.push('/');
         break; 
     }
 
-  }, [getAvailableId, formType, setLists, activeList, lists, setActiveList, setFormType]);
+  }, [getAvailableId, currentRoute, setLists, activeList, lists, setActiveList, router]);
 
   return (
 
     <div>
 
-      {formType.includes("edit") ? (
+      {currentRoute.includes("edit") ? (
         <p
           className='text-center text-2xl mt-8 font-medium'
         >
-          Nom {formType === "editList" ?
-          `de la liste actuelle : ${activeList.name}` :
-          `de la tâche actuelle : ${activeList.thingsToDo[Number.parseInt(formType.replace(/\D/g, ''))].task}`}
+          {currentRoute === "editList" ?
+            `Nom de la liste actuelle : ${activeList.name}` : null
+            // `de la tâche actuelle : ${activeList.thingsToDo[Number.parseInt(router.query.taskIndex)].task}`}
+        }
         </p>
       ): 
         null
@@ -208,7 +189,7 @@ const FormComp = () => {
       >
         <Form className="flex flex-col gap-4 p-4">
 
-          {formType !== "" ?
+          {currentRoute !== "" ?
             <FormInput
               name="inputValue"
               label={inputInfos[0]}
@@ -224,12 +205,18 @@ const FormComp = () => {
             type="submit"
             className='bg-slate-700 w-fit mx-auto px-3 py-2 rounded-xl'
           >
-            {formType.includes('add') ? "Ajouter" : "Modifier"}
+            {currentRoute.includes('add') ? "Ajouter" : "Modifier"}
           </button>
         </Form>
       </Formik>
     </div>
   )
+}
+
+export async function getServerSideProps(context) {
+    return {
+        props: {},
+    };
 }
 
 export default FormComp; 

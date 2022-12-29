@@ -2,11 +2,11 @@ import { PlusIcon } from '@heroicons/react/24/solid';
 import { TrashIcon } from '@heroicons/react/24/solid'; 
 import { PencilSquareIcon, CheckIcon } from '@heroicons/react/24/solid'; 
 import { useContext, useCallback, useState } from 'react';
-import { ActiveListContext, FormTypeContext, ListContext, ShowNonFinishedContext } from '../pages/_app';
+import { ActiveListContext, ListContext, ShowNonFinishedContext } from '../pages/_app';
+import Link from 'next/link';
 
 const ActionNav = () => {
 
-  const [formType, setFormType] = useContext(FormTypeContext);
   const [lists, setLists] = useContext(ListContext);
   const [activeList, setActiveList] = useContext(ActiveListContext);
   const [showNonFinished, setShowNonFinished] = useContext(ShowNonFinishedContext);
@@ -28,20 +28,21 @@ const ActionNav = () => {
         className='flex flex-row' 
       >
         {/* Add task button */}
-        <button
-          className="p-2 px-4 border-r border-slate-500"
-          onClick={() => setFormType('addTask')}
+        <Link
+          href="addTask"
+          className="flex justify-center items-center p-2 px-4 border-r border-slate-500"
         >
           <PlusIcon className="h-6 w-6 text-white"/>
-        </button>
+        </Link>
+
 
         {/* Edit list button */}
-        <button
-          className="py-2 px-4 border-r border-slate-500"
-          onClick={() => setFormType('editList')}
+        <Link
+          className="flex justify-center items-center py-2 px-4 border-r border-slate-500"
+          href="editList"
         >
           <PencilSquareIcon className="h-6 w-6 text-white"/>
-        </button>
+        </Link>
 
         {/* Delete list button */}
         <button
