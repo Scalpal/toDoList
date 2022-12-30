@@ -14,7 +14,6 @@ const FormComp = () => {
 
   const router = useRouter();
   const currentRoute = router.asPath.replace('/', ""); 
-  console.log("router : ",router);
 
   const [lists, setLists] = useContext(ListContext);
   const [activeList, setActiveList] = useContext(ActiveListContext);
@@ -176,7 +175,7 @@ const FormComp = () => {
           {currentRoute === "editList" ?
             `Nom de la liste actuelle : ${activeList.name}` : null
             // `de la tâche actuelle : ${activeList.thingsToDo[Number.parseInt(router.query.taskIndex)].task}`}
-        }
+          }
         </p>
       ): 
         null
@@ -211,12 +210,6 @@ const FormComp = () => {
       </Formik>
     </div>
   )
-}
-
-export async function getServerSideProps(context) {
-    return {
-        props: {},
-    };
 }
 
 export default FormComp; 
