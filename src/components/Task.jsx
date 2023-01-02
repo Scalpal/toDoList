@@ -14,7 +14,8 @@ const Task = (props) => {
 
   const tasks = activeList.thingsToDo;
 
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
+
     const isChecked = e.currentTarget.checked; 
     const taskIndex = Number.parseInt(e.currentTarget.dataset.taskindex); 
 
@@ -35,7 +36,9 @@ const Task = (props) => {
     })) 
 
     return;
-  }
+  }, [setLists , lists , activeList]);
+
+  
 
   const handleEditTask = useCallback((taskIndex) => {
     router.push("editTask/" + taskIndex);
@@ -69,7 +72,7 @@ const Task = (props) => {
             style={{ display: showNonFinished && isFinished === true ? "none" : "flex" }}
           >
             <label
-              htmlFor={task}
+              htmlFor={taskIndex}
               className='w-11 h-11 min-w-[2.75rem] min-h-[2.75rem] max-w-[2.75rem] max-h-[2.75rem] 
               rounded-full border-2 p-2 my-4 duration-300'
               style={{
@@ -80,7 +83,7 @@ const Task = (props) => {
               {isFinished ? <CheckIcon /> : null}
             </label>
             <input
-              id={task}
+              id={taskIndex}
               className="hidden"
               type="checkbox"
               checked={isFinished ? true : false}
@@ -107,7 +110,7 @@ const Task = (props) => {
           className="h-full flex flex-auto justify-center items-center"
         >
           <p
-            className="text-5xl border-4 p-4 rounded-2xl bg-slate-800 whitespace-normal" 
+            className="text-5xl border-4 p-4 mt-24 rounded-2xl bg-slate-800 whitespace-normal" 
           >
             Liste vide pour le moment...
           </p>

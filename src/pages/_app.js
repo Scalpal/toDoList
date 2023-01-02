@@ -1,10 +1,8 @@
 import '../styles/globals.css';
-import { useState, createContext, useContext } from "react"; 
+import { useState, createContext } from "react"; 
 import { useRouter } from 'next/router';
 import Layout from '../components/layout';
 import Task from '../components/Task';
-import FormComp from '../components/FormComp';
-import { create } from 'yup/lib/Reference';
 
 const initialList =
   [

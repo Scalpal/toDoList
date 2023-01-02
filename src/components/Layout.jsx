@@ -19,13 +19,13 @@ const Layout = (props) => {
 
   return (
     <div
-      className="h-screen max-h-screen"
+      className="h-auto"
     >
       <div
-        className="sticky top-0"
+        className="sticky top-0 left-0 z-10 bg-slate-900"
       >
         <nav
-          className="flex gap-[1px] p-0 overflow-scroll"
+          className="flex gap-[1px] p-0 overflow-scroll pr-4"
         >
           {lists.map((listItem, index) => {
             const activeListIndex = lists.findIndex(list => list.id === activeList.id); 
@@ -43,7 +43,7 @@ const Layout = (props) => {
           })}
 
           <button
-            className="bg-slate-700 border border-b-0 border-slate-500 rounded-t-lg px-3 ml-4"
+            className="bg-slate-700 border border-b-0 border-slate-500 rounded-t-lg px-3 mx-4"
             onClick={() => handleForm()}
           >
             +

@@ -44,9 +44,12 @@ const ListHeader = (props) => {
     }
   },[tasksFinishedCount, totalTasks, progressBarWidth])
 
-  const handleActiveList = useCallback(() => {
+  const handleActiveList = useCallback((e) => {
     router.push('/');
     setActiveList(listItem);
+
+    const header = e.currentTarget;
+    header.scrollIntoView({behavior: "smooth" , inline: "center"});
 
   }, [listItem, setActiveList, router])
 
@@ -56,7 +59,7 @@ const ListHeader = (props) => {
       key={index}
       className={activeClassName}
       data-listindex={index}
-      onClick={handleActiveList}
+      onClick={(e) => {handleActiveList(e)}}
     >
       <p className="whitespace-nowrap"> {listItem.name} </p>
       <p>
