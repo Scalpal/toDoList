@@ -1,7 +1,7 @@
-import { Field } from 'formik';
+import { Field } from "formik"
 
 const FormInput = (props) => {
-  const { name, label, placeholder, ...otherProps } = props;
+  const { name, label, placeholder, ...otherProps } = props
 
   return (
     <Field name={name}>
@@ -29,7 +29,7 @@ const FormInput = (props) => {
         )
       }
     </Field>
-  );
-};
+  )
+}
 
-export default FormInput;
+export default FormInput

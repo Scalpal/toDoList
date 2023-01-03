@@ -1,74 +1,70 @@
-import React, { useContext, useCallback } from 'react';
-import { ListContext, ShowNonFinishedContext } from '../pages/_app';
-import { CheckIcon, TrashIcon } from '@heroicons/react/24/solid';
-import Link from 'next/link';
+import React, { useContext, useCallback } from "react" 
+import { ListContext, ShowNonFinishedContext } from "../pages/_app" 
+import { CheckIcon, TrashIcon } from "@heroicons/react/24/solid" 
+import Link from "next/link" 
  
 const Task = (props) => {
+  const { activeList, setActiveList } = props  
 
-  const { activeList, setActiveList } = props; 
+  const [lists, setLists] = useContext(ListContext) 
+  const [showNonFinished ] = useContext(ShowNonFinishedContext) 
 
-  const [lists, setLists] = useContext(ListContext);
-  const [showNonFinished, _ ] = useContext(ShowNonFinishedContext);
-
-  const tasks = activeList.thingsToDo;
+  const tasks = activeList.thingsToDo 
 
   const handleChange = useCallback((e) => {
+    const isChecked = e.currentTarget.checked  
+    const taskIndex = Number.parseInt(e.currentTarget.dataset.taskindex)  
 
-    const isChecked = e.currentTarget.checked; 
-    const taskIndex = Number.parseInt(e.currentTarget.dataset.taskindex); 
-
-    let updatedList = activeList;
+    let updatedList = activeList 
     
     updatedList.thingsToDo.map((task, index) => {
       if (taskIndex === index) {
-        updatedList.thingsToDo[taskIndex].isFinished = isChecked ? true : false;
+        updatedList.thingsToDo[taskIndex].isFinished = isChecked ? true : false 
       }
-    });
+    }) 
 
     setLists(lists.map((list) => {
       if (list.id === updatedList.id) {
-        return updatedList;
+        return updatedList 
       }
 
-      return list;
-    })); 
+      return list 
+    }))  
 
-    return;
-  }, [setLists , lists , activeList]);
+    return 
+  }, [setLists , lists , activeList]) 
 
   const handleDeleteTask = useCallback((taskIndex) => {
-    let updatedActiveList = activeList; 
-    updatedActiveList.thingsToDo.splice(taskIndex, 1);
+    let updatedActiveList = activeList  
+    updatedActiveList.thingsToDo.splice(taskIndex, 1) 
 
-    setActiveList(updatedActiveList);
+    setActiveList(updatedActiveList) 
 
     setLists(lists.map((list) => {
       if (list.id === activeList.id) {
-        return activeList;
+        return activeList 
       }
 
-      return list;
-    }));
-
-  }, [activeList, lists, setActiveList, setLists]); 
+      return list 
+    })) 
+  }, [activeList, lists, setActiveList, setLists])  
 
   return (
     <React.Fragment>
       {tasks.length > 0 ? tasks.map(({ task, isFinished }, taskIndex) => {
-    
         return (
           <div
             key={taskIndex}
             className="group/task flex items-center relative gap-8 bg-slate-800 border-b border-b-slate-500 px-4"
-            style={{ display: showNonFinished && isFinished === true ? 'none' : 'flex' }}
+            style={{ display: showNonFinished && isFinished === true ? "none" : "flex" }}
           >
             <label
               htmlFor={taskIndex}
-              className='w-11 h-11 min-w-[2.75rem] min-h-[2.75rem] max-w-[2.75rem] max-h-[2.75rem] 
-              rounded-full border-2 p-2 my-4 duration-300'
+              className="w-11 h-11 min-w-[2.75rem] min-h-[2.75rem] max-w-[2.75rem] max-h-[2.75rem] 
+              rounded-full border-2 p-2 my-4 duration-300"
               style={{
-                backgroundColor: isFinished ? 'rgb(7 89 133)' : 'rgb(148 163 184)',
-                borderColor: isFinished ? 'rgb(7 89 133)' : 'rgb(255 255 255)',
+                backgroundColor: isFinished ? "rgb(7 89 133)" : "rgb(148 163 184)",
+                borderColor: isFinished ? "rgb(7 89 133)" : "rgb(255 255 255)",
               }}
             >
               {isFinished ? <CheckIcon /> : null}
@@ -79,7 +75,7 @@ const Task = (props) => {
               type="checkbox"
               checked={isFinished ? true : false}
               data-taskindex={taskIndex}
-              onChange={(e) => {handleChange(e);}}
+              onChange={(e) => {handleChange(e) }}
             />
             
             <Link
@@ -91,10 +87,10 @@ const Task = (props) => {
 
             <TrashIcon
               className="invisible group-hover/task:visible w-9 h-9 ml-auto mr-2 cursor-pointer"
-              onClick={() => {handleDeleteTask(taskIndex);}}
+              onClick={() => {handleDeleteTask(taskIndex) }}
             /> 
           </div>
-        );
+        ) 
       }) :
         (
           <div
@@ -110,8 +106,8 @@ const Task = (props) => {
 
       }
     </React.Fragment>
-  );
-};
+  ) 
+} 
 
 
-export default Task; 
+export default Task  

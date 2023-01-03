@@ -1,58 +1,57 @@
-import '../styles/globals.css';
-import { useState, createContext } from 'react'; 
-import { useRouter } from 'next/router';
-import Layout from '../components/layout';
-import Task from '../components/Task';
+import "../styles/globals.css"
+import { useState, createContext } from "react"
+import { useRouter } from "next/router"
+import Layout from "../components/layout"
+import Task from "../components/Task"
 
 const initialList =
   [
     {
       id: 0,
-      name: 'Homework',
+      name: "Homework",
       thingsToDo: [
         {
-          task: 'Do math work',
+          task: "Do math work",
           isFinished: false
         },
         {
-          task: 'Do physics work', 
+          task: "Do physics work", 
           isFinished: true
         },
         {
-          task: 'Do science work', 
+          task: "Do science work", 
           isFinished: true
         }
       ]
     },
     {
       id: 1,
-      name: 'Groceries',
+      name: "Groceries",
       thingsToDo: [
         {
-          task: 'Buy tomatoes',
+          task: "Buy tomatoes",
           isFinished: false
         },
         {
-          task: 'Buy zucchini',
+          task: "Buy zucchini",
           isFinished: true
         }
       ]
     }
-  ];
+  ]
 
-export const ActiveListContext = createContext(null);
-export const ListContext = createContext(null);
-export const ShowNonFinishedContext = createContext(null); 
-export const TaskIndexContext = createContext(null);
+export const ActiveListContext = createContext(null)
+export const ListContext = createContext(null)
+export const ShowNonFinishedContext = createContext(null)
+export const TaskIndexContext = createContext(null)
 
 function MyApp({ Component }) {
+  const router = useRouter()
+  const currentRoute = router.asPath
 
-  const router = useRouter();
-  const currentRoute = router.asPath;
-
-  const [lists, setLists] = useState(initialList); 
-  const [activeList, setActiveList] = useState(initialList[0]); 
-  const [showNonFinished, setShowNonFinished] = useState(false);
+  const [lists, setLists] = useState(initialList)
+  const [activeList, setActiveList] = useState(initialList[0])
+  const [showNonFinished, setShowNonFinished] = useState(false)
 
 
   return (
@@ -62,15 +61,15 @@ function MyApp({ Component }) {
      
           <Layout activeList={activeList} lists={lists}>
         
-            {currentRoute !== '/' ? <Component /> : <Task activeList={activeList} setActiveList={setActiveList} />}
+            {currentRoute !== "/" ? <Component /> : <Task activeList={activeList} setActiveList={setActiveList} />}
 
           </Layout>
           
         </ShowNonFinishedContext.Provider>
       </ActiveListContext.Provider>
     </ListContext.Provider>
-  );
+  )
 };
 
 
-export default MyApp;
+export default MyApp

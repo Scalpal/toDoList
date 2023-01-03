@@ -1,18 +1,16 @@
-import ListHeader from './ListHeader';
-import { useCallback } from 'react';
-import ActionNav from './ActionNav';
-import { useRouter } from 'next/router';
+import ListHeader from "./ListHeader"
+import { useCallback } from "react"
+import ActionNav from "./ActionNav"
+import { useRouter } from "next/router"
 
 
 const Layout = (props) => {
-  
-  const { children, activeList, lists } = props; 
-  const router = useRouter();
+  const { children, activeList, lists } = props
+  const router = useRouter()
 
   const handleForm = useCallback(() => {
-    router.push('/addList');
-
-  }, [router]);
+    router.push("/addList")
+  }, [router])
 
   return (
     <div
@@ -25,18 +23,18 @@ const Layout = (props) => {
           className="flex gap-[1px] p-0 overflow-scroll"
         >
           {lists.map((listItem, index) => {
-            const activeListIndex = lists.findIndex(list => list.id === activeList.id); 
+            const activeListIndex = lists.findIndex(list => list.id === activeList.id)
 
-            const isActiveList = index === activeListIndex ? true : false; 
+            const isActiveList = index === activeListIndex ? true : false
 
             let activeClassName = isActiveList ?
-              'flex p-3 bg-slate-900 rounded-t-lg gap-3 border border-slate-500 cursor-pointer relative border-b-0'
+              "flex p-3 bg-slate-900 rounded-t-lg gap-3 border border-slate-500 cursor-pointer relative border-b-0"
               :
-              'flex p-3 bg-slate-700 rounded-t-lg gap-3 border border-slate-500 cursor-pointer relative border-b-0';
+              "flex p-3 bg-slate-700 rounded-t-lg gap-3 border border-slate-500 cursor-pointer relative border-b-0"
             
             return (
               <ListHeader key={index} listItem={listItem} index={index} activeClassName={activeClassName} /> 
-            );
+            )
           })}
 
           <button
@@ -53,7 +51,7 @@ const Layout = (props) => {
       {children}
 
     </div>
-  );
-};
+  )
+}
 
-export default Layout; 
+export default Layout
