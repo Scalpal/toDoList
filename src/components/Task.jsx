@@ -1,16 +1,14 @@
-import React, { useContext, useEffect, useState, useCallback } from "react";
-import { ListContext, ShowNonFinishedContext } from "../pages/_app";
+import React, { useContext, useCallback } from 'react';
+import { ListContext, ShowNonFinishedContext } from '../pages/_app';
 import { CheckIcon, TrashIcon } from '@heroicons/react/24/solid';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
  
 const Task = (props) => {
 
-  const router = useRouter();
   const { activeList, setActiveList } = props; 
 
   const [lists, setLists] = useContext(ListContext);
-  const [showNonFinished, setShowNonFinished] = useContext(ShowNonFinishedContext);
+  const [showNonFinished, _ ] = useContext(ShowNonFinishedContext);
 
   const tasks = activeList.thingsToDo;
 
@@ -25,7 +23,7 @@ const Task = (props) => {
       if (taskIndex === index) {
         updatedList.thingsToDo[taskIndex].isFinished = isChecked ? true : false;
       }
-    })
+    });
 
     setLists(lists.map((list) => {
       if (list.id === updatedList.id) {
@@ -33,7 +31,7 @@ const Task = (props) => {
       }
 
       return list;
-    })) 
+    })); 
 
     return;
   }, [setLists , lists , activeList]);
@@ -62,7 +60,7 @@ const Task = (props) => {
           <div
             key={taskIndex}
             className="group/task flex items-center relative gap-8 bg-slate-800 border-b border-b-slate-500 px-4"
-            style={{ display: showNonFinished && isFinished === true ? "none" : "flex" }}
+            style={{ display: showNonFinished && isFinished === true ? 'none' : 'flex' }}
           >
             <label
               htmlFor={taskIndex}
@@ -81,7 +79,7 @@ const Task = (props) => {
               type="checkbox"
               checked={isFinished ? true : false}
               data-taskindex={taskIndex}
-              onChange={(e) => {handleChange(e)}}
+              onChange={(e) => {handleChange(e);}}
             />
             
             <Link
@@ -93,27 +91,27 @@ const Task = (props) => {
 
             <TrashIcon
               className="invisible group-hover/task:visible w-9 h-9 ml-auto mr-2 cursor-pointer"
-              onClick={() => {handleDeleteTask(taskIndex)}}
+              onClick={() => {handleDeleteTask(taskIndex);}}
             /> 
           </div>
-        )
+        );
       }) :
-      (
-        <div
-          className="h-full flex flex-auto justify-center items-center"
-        >
-          <p
-            className="text-5xl border-4 p-4 mt-24 rounded-2xl bg-slate-800 whitespace-normal" 
+        (
+          <div
+            className="h-full flex flex-auto justify-center items-center"
           >
+            <p
+              className="text-5xl border-4 p-4 mt-24 rounded-2xl bg-slate-800 whitespace-normal" 
+            >
             Liste vide pour le moment...
-          </p>
-        </div>
-      )
+            </p>
+          </div>
+        )
 
       }
     </React.Fragment>
-  )
-}
+  );
+};
 
 
 export default Task; 

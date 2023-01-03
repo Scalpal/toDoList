@@ -1,6 +1,6 @@
-import { useRouter } from "next/router";
-import { useEffect, useState, useCallback, useContext } from "react";
-import { ActiveListContext, ListContext } from "../pages/_app";
+import { useRouter } from 'next/router';
+import { useEffect, useState, useCallback, useContext } from 'react';
+import { ActiveListContext, ListContext } from '../pages/_app';
 
 const ListHeader = (props) => {
 
@@ -11,7 +11,7 @@ const ListHeader = (props) => {
   const [tasksFinishedCount, setTasksFinishedCount] = useState(0);
   const [progressBarWidth, setProgressBarWidth] = useState(0);
   
-  const [activeList, setActiveList] = useContext(ActiveListContext);
+  const [ _ , setActiveList] = useContext(ActiveListContext);
   const [lists, setLists] = useContext(ListContext);
 
   // Using this to get a copy of the list element at this index 
@@ -29,10 +29,10 @@ const ListHeader = (props) => {
       if (isFinished) {
         countFinishedTasks += 1;
       }
-    })
+    });
 
     setTasksFinishedCount(countFinishedTasks);
-  }, [lists, tasks, setLists])    
+  }, [lists, tasks, setLists]);    
 
 
   useEffect(() => {
@@ -42,16 +42,16 @@ const ListHeader = (props) => {
     if (progressBarWidth > 100) {
       setProgressBarWidth(0);
     }
-  },[tasksFinishedCount, totalTasks, progressBarWidth])
+  },[tasksFinishedCount, totalTasks, progressBarWidth]);
 
   const handleActiveList = useCallback((e) => {
     router.push('/');
     setActiveList(listItem);
 
     const header = e.currentTarget;
-    header.scrollIntoView({behavior: "smooth" , inline: "center"});
+    header.scrollIntoView({behavior: 'smooth' , inline: 'center'});
 
-  }, [listItem, setActiveList, router])
+  }, [listItem, setActiveList, router]);
 
   
   return (
@@ -59,7 +59,7 @@ const ListHeader = (props) => {
       key={index}
       className={activeClassName}
       data-listindex={index}
-      onClick={(e) => {handleActiveList(e)}}
+      onClick={(e) => {handleActiveList(e);}}
     >
       <p className="whitespace-nowrap"> {listItem.name} </p>
       <p>
@@ -69,12 +69,12 @@ const ListHeader = (props) => {
       
       {/* Progress bar */} 
       <div
-        className={`bg-green-500 h-[0.20rem] rounded-t absolute bottom-0 left-0 duration-500`} 
+        className={'bg-green-500 h-[0.20rem] rounded-t absolute bottom-0 left-0 duration-500'} 
         style={{width: `${progressBarWidth}%` }}
       ></div>
     </div>
-  )
+  );
 
-}
+};
 
 export default ListHeader;

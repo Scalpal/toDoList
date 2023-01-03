@@ -1,7 +1,7 @@
-import { Field } from "formik";
+import { Field } from 'formik';
 
 const FormInput = (props) => {
-  const { name, label, className, placeholder, ...otherProps } = props;
+  const { name, label, placeholder, ...otherProps } = props;
 
   return (
     <Field name={name}>

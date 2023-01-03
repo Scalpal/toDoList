@@ -1,6 +1,6 @@
-import ListHeader from "./ListHeader";
-import { useCallback } from "react";
-import ActionNav from "./ActionNav";
+import ListHeader from './ListHeader';
+import { useCallback } from 'react';
+import ActionNav from './ActionNav';
 import { useRouter } from 'next/router';
 
 
@@ -10,9 +10,9 @@ const Layout = (props) => {
   const router = useRouter();
 
   const handleForm = useCallback(() => {
-    router.push("/addList");
+    router.push('/addList');
 
-  }, [router])
+  }, [router]);
 
   return (
     <div
@@ -30,13 +30,13 @@ const Layout = (props) => {
             const isActiveList = index === activeListIndex ? true : false; 
 
             let activeClassName = isActiveList ?
-              "flex p-3 bg-slate-900 rounded-t-lg gap-3 border border-slate-500 cursor-pointer relative border-b-0"
+              'flex p-3 bg-slate-900 rounded-t-lg gap-3 border border-slate-500 cursor-pointer relative border-b-0'
               :
-              "flex p-3 bg-slate-700 rounded-t-lg gap-3 border border-slate-500 cursor-pointer relative border-b-0"
+              'flex p-3 bg-slate-700 rounded-t-lg gap-3 border border-slate-500 cursor-pointer relative border-b-0';
             
             return (
               <ListHeader key={index} listItem={listItem} index={index} activeClassName={activeClassName} /> 
-            )
+            );
           })}
 
           <button
@@ -53,7 +53,7 @@ const Layout = (props) => {
       {children}
 
     </div>
-  )
-}
+  );
+};
 
 export default Layout; 

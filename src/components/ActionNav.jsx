@@ -70,11 +70,11 @@ const ActionNav = () => {
         className="hidden"
         type="checkbox"
         checked={showNonFinished ? true : false}
-        onChange={() => {setShowNonFinished(showNonFinished ? false : true)}}
+        onChange={() => {setShowNonFinished(showNonFinished ? false : true);}}
       />
     </div>
-  )
-}
+  );
+};
 
 
 export default ActionNav; 
