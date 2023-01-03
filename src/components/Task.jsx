@@ -38,13 +38,6 @@ const Task = (props) => {
     return;
   }, [setLists , lists , activeList]);
 
-  
-
-  const handleEditTask = useCallback((taskIndex) => {
-    router.push("editTask/" + taskIndex);
-
-  }, [router])
-
   const handleDeleteTask = useCallback((taskIndex) => {
     let updatedActiveList = activeList; 
     updatedActiveList.thingsToDo.splice(taskIndex, 1);

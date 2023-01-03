@@ -1,8 +1,6 @@
 import ListHeader from "./ListHeader";
-import { useCallback, useContext, useEffect } from "react";
+import { useCallback } from "react";
 import ActionNav from "./ActionNav";
-import { ListContext } from '../pages/_app';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 
@@ -10,7 +8,6 @@ const Layout = (props) => {
   
   const { children, activeList, lists } = props; 
   const router = useRouter();
-  const currentRoute = router.asPath;
 
   const handleForm = useCallback(() => {
     router.push("/addList");
@@ -25,7 +22,7 @@ const Layout = (props) => {
         className="sticky top-0 left-0 z-10 bg-slate-900"
       >
         <nav
-          className="flex gap-[1px] p-0 overflow-scroll pr-4"
+          className="flex gap-[1px] p-0 overflow-scroll"
         >
           {lists.map((listItem, index) => {
             const activeListIndex = lists.findIndex(list => list.id === activeList.id); 

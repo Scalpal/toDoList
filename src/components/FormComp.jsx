@@ -1,13 +1,13 @@
 import { Formik, Form } from 'formik';
 import * as yup from "yup";
 import FormInput from './FormInput';
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { ActiveListContext, ListContext } from '../pages/_app';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 
 
 const validationSchema = yup.object().shape({
-  inputValue: yup.string().required().max(100, "Max 100 characters for list's name.").label("List")
+  inputValue: yup.string().required().max(100, "Max 100 characters.").label("List")
 });
 
 const FormComp = () => {
@@ -17,19 +17,8 @@ const FormComp = () => {
 
   const [lists, setLists] = useContext(ListContext);
   const [activeList, setActiveList] = useContext(ActiveListContext);
-  const [taskIndex, setTaskIndex] = useState(null); 
 
   const [inputInfos, setInputInfos] = useState([]);
-
-  // console.log('squid game : ', Number.parseInt(router.query.taskIndex))
-
-    useEffect(() => {
-      const {taskIndex} = router.query  
-      if(taskIndex) {
-        setTaskIndex(taskIndex);
-      }
-
-    }, [router])
 
   useEffect(() => {
     if (currentRoute === "addList"){
@@ -74,7 +63,6 @@ const FormComp = () => {
   }, [lists]);
 
   const handleSubmit = useCallback(({inputValue}, { resetForm }) => {
-    console.log("handleSubmit appellée ! ");
 
     let type = currentRoute;
 

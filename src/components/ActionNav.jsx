@@ -1,7 +1,7 @@
 import { PlusIcon } from '@heroicons/react/24/solid';
 import { TrashIcon } from '@heroicons/react/24/solid'; 
 import { PencilSquareIcon, CheckIcon } from '@heroicons/react/24/solid'; 
-import { useContext, useCallback, useState } from 'react';
+import { useContext, useCallback } from 'react';
 import { ActiveListContext, ListContext, ShowNonFinishedContext } from '../pages/_app';
 import Link from 'next/link';
 

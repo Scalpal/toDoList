@@ -57,19 +57,19 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <ListContext.Provider value={[lists, setLists]}>
-    <ActiveListContext.Provider value={[activeList, setActiveList]}>
-    <ShowNonFinishedContext.Provider value={[showNonFinished, setShowNonFinished]}>
+      <ActiveListContext.Provider value={[activeList, setActiveList]}>
+        <ShowNonFinishedContext.Provider value={[showNonFinished, setShowNonFinished]}>
      
-      <Layout activeList={activeList} lists={lists}> 
+          <Layout activeList={activeList} lists={lists}>
         
-        {currentRoute !== "/" ? <Component /> : <Task activeList={activeList} setActiveList={setActiveList} />}
+            {currentRoute !== "/" ? <Component /> : <Task activeList={activeList} setActiveList={setActiveList} />}
 
-      </Layout>
+          </Layout>
           
-    </ShowNonFinishedContext.Provider>
-    </ActiveListContext.Provider>
+        </ShowNonFinishedContext.Provider>
+      </ActiveListContext.Provider>
     </ListContext.Provider>
-  )
+  );
 };
 
 
