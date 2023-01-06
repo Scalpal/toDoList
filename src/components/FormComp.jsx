@@ -115,7 +115,7 @@ const FormComp = () => {
             return activeList
           }
           
-return list
+          return list
         }))
 
         resetForm()
@@ -163,7 +163,6 @@ return list
         >
           {currentRoute === "editList" ?
             `Nom de la liste actuelle : ${activeList.name}` : null
-            // `de la tâche actuelle : ${activeList.thingsToDo[Number.parseInt(router.query.taskIndex)].task}`}
           }
         </p>
       ) :

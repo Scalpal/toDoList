@@ -55,17 +55,17 @@ const Task = (props) => {
         return (
           <div
             key={taskIndex}
-            className="group/task flex items-center relative gap-8 bg-slate-800 border-b border-b-slate-500 px-4"
-            style={{ display: showNonFinished && isFinished === true ? "none" : "flex" }}
+            className={`
+              group/task items-center relative gap-8 bg-slate-800 border-b border-b-slate-500 px-4 
+              ${showNonFinished && isFinished === true ? "hidden" : "flex"}
+            `}
           >
             <label
               htmlFor={taskIndex}
-              className="w-11 h-11 min-w-[2.75rem] min-h-[2.75rem] max-w-[2.75rem] max-h-[2.75rem] 
-              rounded-full border-2 p-2 my-4 duration-300"
-              style={{
-                backgroundColor: isFinished ? "rgb(7 89 133)" : "rgb(148 163 184)",
-                borderColor: isFinished ? "rgb(7 89 133)" : "rgb(255 255 255)",
-              }}
+              className={`
+                w-11 h-11 min-w-[2.75rem] min-h-[2.75rem] max-w-[2.75rem] max-h-[2.75rem] rounded-full border-2 p-2 my-4 duration-300
+                ${isFinished ? "bg-sky-800 border-sky-800" : "bg-slate-400 border-white"}
+              `}
             >
               {isFinished ? <CheckIcon /> : null}
             </label>

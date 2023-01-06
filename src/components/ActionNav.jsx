@@ -1,6 +1,4 @@
-import { PlusIcon } from "@heroicons/react/24/solid"
-import { TrashIcon } from "@heroicons/react/24/solid" 
-import { PencilSquareIcon, CheckIcon } from "@heroicons/react/24/solid" 
+import { PencilSquareIcon, CheckIcon, TrashIcon, PlusIcon } from "@heroicons/react/24/solid" 
 import { useContext, useCallback } from "react"
 import { ActiveListContext, ListContext, ShowNonFinishedContext } from "../pages/_app"
 import Link from "next/link"
@@ -55,11 +53,10 @@ const ActionNav = () => {
 
       <label
         htmlFor="showNonFinished"
-        className="w-10 h-10 rounded-full border-2 p-2 my-3 mr-6 duration-300 ml-auto"
-        style={{
-          backgroundColor: showNonFinished ? "rgb(7 89 133)" : "rgb(148 163 184)",
-          borderColor: showNonFinished ? "rgb(7 89 133)" : "rgb(255 255 255)",
-        }}
+        className={`
+          w-10 h-10 rounded-full border-2 p-2 my-3 mr-6 duration-300 ml-auto
+          ${showNonFinished ? "bg-sky-800 border-sky-800" : "bg-slate-400 border-white"}
+        `}
       >
         {showNonFinished ? <CheckIcon /> : null}
       </label>

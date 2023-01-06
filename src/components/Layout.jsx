@@ -14,7 +14,7 @@ const Layout = (props) => {
 
   return (
     <div
-      className="h-auto"
+      className="h-auto min-h-screen bg-slate-900 text-white"
     >
       <div
         className="sticky top-0 left-0 z-10 bg-slate-900"
@@ -24,7 +24,6 @@ const Layout = (props) => {
         >
           {lists.map((listItem, index) => {
             const activeListIndex = lists.findIndex(list => list.id === activeList.id)
-
             const isActiveList = index === activeListIndex ? true : false
 
             let activeClassName = isActiveList ?

@@ -4,41 +4,40 @@ import { useRouter } from "next/router"
 import Layout from "../components/layout"
 import Task from "../components/Task"
 
-const initialList =
-  [
-    {
-      id: 0,
-      name: "Homework",
-      thingsToDo: [
-        {
-          task: "Do math work",
-          isFinished: false
-        },
-        {
-          task: "Do physics work", 
-          isFinished: true
-        },
-        {
-          task: "Do science work", 
-          isFinished: true
-        }
-      ]
-    },
-    {
-      id: 1,
-      name: "Groceries",
-      thingsToDo: [
-        {
-          task: "Buy tomatoes",
-          isFinished: false
-        },
-        {
-          task: "Buy zucchini",
-          isFinished: true
-        }
-      ]
-    }
-  ]
+const initialList = [
+  {
+    id: 0,
+    name: "Homework",
+    thingsToDo: [
+      {
+        task: "Do math work",
+        isFinished: false
+      },
+      {
+        task: "Do physics work", 
+        isFinished: true
+      },
+      {
+        task: "Do science work", 
+        isFinished: true
+      }
+    ]
+  },
+  {
+    id: 1,
+    name: "Groceries",
+    thingsToDo: [
+      {
+        task: "Buy tomatoes",
+        isFinished: false
+      },
+      {
+        task: "Buy zucchini",
+        isFinished: true
+      }
+    ]
+  }
+]
 
 export const ActiveListContext = createContext(null)
 export const ListContext = createContext(null)

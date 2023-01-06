@@ -67,7 +67,7 @@ const ListHeader = (props) => {
       {/* Progress bar */} 
       <div
         className={"bg-green-500 h-[0.20rem] rounded-t absolute bottom-0 left-0 duration-500"} 
-        style={{width: `${progressBarWidth}%` }}
+        style={{width: `${progressBarWidth}%`}}
       ></div>
     </div>
   )
