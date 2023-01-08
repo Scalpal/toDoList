@@ -39,10 +39,9 @@ const initialList = [
   }
 ]
 
-export const ActiveListContext = createContext(null)
 export const ListContext = createContext(null)
+export const ActiveListContext = createContext(null)
 export const ShowNonFinishedContext = createContext(null)
-export const TaskIndexContext = createContext(null)
 
 function MyApp({ Component }) {
   const router = useRouter()
@@ -51,7 +50,6 @@ function MyApp({ Component }) {
   const [lists, setLists] = useState(initialList)
   const [activeList, setActiveList] = useState(initialList[0])
   const [showNonFinished, setShowNonFinished] = useState(false)
-
 
   return (
     <ListContext.Provider value={[lists, setLists]}>

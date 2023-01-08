@@ -5,16 +5,21 @@ import Link from "next/link"
 
 const ActionNav = () => {
   const [lists, setLists] = useContext(ListContext)
-  const [activeList, setActiveList] = useContext(ActiveListContext)
+  const [activeList, _] = useContext(ActiveListContext)
   const [showNonFinished, setShowNonFinished] = useContext(ShowNonFinishedContext)
 
   const deleteList = useCallback(() => {
-    const previousOrNextListIndex = activeList.id - 1 >= 0 ? activeList.id - 1 : activeList.id + 1 
-
-    setActiveList(lists[previousOrNextListIndex]) 
+    const listHeader = document.querySelector(`.listHeader[data-listid="${activeList.id}"`)
+    
+    // If we delete the first list, we click on the next listHeader to set the activeList to the next list
+    if (listHeader.dataset.listindex === "0") {
+      listHeader.nextSibling.click()
+    } else {
+      listHeader.previousSibling.click()
+    }
 
     setLists(lists.filter(list => list.id !== activeList.id))
-  }, [lists, activeList, setActiveList, setLists]) 
+  }, [lists, activeList, setLists]) 
 
   return (
     <div

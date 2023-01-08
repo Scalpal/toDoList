@@ -27,9 +27,9 @@ const Layout = (props) => {
             const isActiveList = index === activeListIndex ? true : false
 
             let activeClassName = isActiveList ?
-              "flex p-3 bg-slate-900 rounded-t-lg gap-3 border border-slate-500 cursor-pointer relative border-b-0"
+              "listHeader flex p-3 bg-slate-900 rounded-t-lg gap-3 border border-slate-500 cursor-pointer relative border-b-0"
               :
-              "flex p-3 bg-slate-700 rounded-t-lg gap-3 border border-slate-500 cursor-pointer relative border-b-0"
+              "listHeader flex p-3 bg-slate-700 rounded-t-lg gap-3 border border-slate-500 cursor-pointer relative border-b-0"
             
             return (
               <ListHeader key={index} listItem={listItem} index={index} activeClassName={activeClassName} /> 

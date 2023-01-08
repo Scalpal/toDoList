@@ -56,6 +56,7 @@ const ListHeader = (props) => {
       key={index}
       className={activeClassName}
       data-listindex={index}
+      data-listid={listItem.id}
       onClick={(e) => {handleActiveList(e) }}
     >
       <p className="whitespace-nowrap"> {listItem.name} </p>

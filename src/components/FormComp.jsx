@@ -52,6 +52,12 @@ const FormComp = () => {
     for (let i = 0; i < usedIds.length; i++) {
       let id = usedIds[i]
 
+      if (!usedIds.includes(0)) {
+        availableId = 0
+
+        return availableId
+      }
+
       if (!usedIds.includes(id + 1)) {
         availableId = id + 1
 
