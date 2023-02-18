@@ -1,7 +1,7 @@
 import "../styles/globals.css"
 import { useState, createContext } from "react"
 import { useRouter } from "next/router"
-import Layout from "../components/layout"
+import Layout from "../components/Layout"
 import Task from "../components/Task"
 
 const initialList = [
