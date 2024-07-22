@@ -1,14 +1,11 @@
-import React, { useContext, useCallback } from "react" 
-import { ListContext, ShowNonFinishedContext } from "../pages/_app" 
+import React, { useCallback } from "react" 
 import { CheckIcon, TrashIcon } from "@heroicons/react/24/solid" 
 import Link from "next/link" 
+import useAppContext from "../helpers/context/useAppContext"
  
-const Task = (props) => {
-  const { activeList, setActiveList } = props  
-
-  const [lists, setLists] = useContext(ListContext) 
-  const [showNonFinished ] = useContext(ShowNonFinishedContext) 
-
+const Task = () => {
+  const { setLists, activeList, setActiveList, showNonFinished } = useAppContext()
+  
   const tasks = activeList.thingsToDo 
 
   const handleChange = useCallback((e) => {
@@ -23,16 +20,17 @@ const Task = (props) => {
       }
     }) 
 
-    setLists(lists.map((list) => {
-      if (list.id === updatedList.id) {
-        return updatedList 
-      }
+    setLists((prevState) =>
+      prevState.map((list) => {
+        if (list.id === updatedList.id) {
+          return updatedList 
+        }
 
-      return list 
+        return list 
     }))  
 
     return 
-  }, [setLists , lists , activeList]) 
+  }, [setLists, activeList]) 
 
   const handleDeleteTask = useCallback((taskIndex) => {
     let updatedActiveList = activeList  
@@ -40,14 +38,16 @@ const Task = (props) => {
 
     setActiveList(updatedActiveList) 
 
-    setLists(lists.map((list) => {
-      if (list.id === activeList.id) {
-        return activeList 
-      }
+    setLists((prevState) => 
+      prevState.map((list) => {
+        if (list.id === activeList.id) {
+          return activeList 
+        }
 
-      return list 
-    })) 
-  }, [activeList, lists, setActiveList, setLists])  
+        return list 
+      })
+    )
+  }, [activeList, setActiveList, setLists])  
 
   return (
     <React.Fragment>

@@ -1,17 +1,15 @@
 import { useRouter } from "next/router" 
-import { useEffect, useState, useCallback, useContext } from "react" 
-import { ActiveListContext, ListContext } from "../pages/_app" 
+import { useEffect, useState, useCallback } from "react" 
+import useAppContext from "../helpers/context/useAppContext"
 
 const ListHeader = (props) => {
   const { listItem, index, activeClassName } = props  
   const router = useRouter() 
   
-  // let totalTasks = listItem.thingsToDo.length 
   const [tasksFinishedCount, setTasksFinishedCount] = useState(0) 
   const [progressBarWidth, setProgressBarWidth] = useState(0) 
   
-  const [ _ , setActiveList] = useContext(ActiveListContext) 
-  const [lists, setLists] = useContext(ListContext) 
+  const { setActiveList, lists, setLists } = useAppContext()
 
   // Using this to get a copy of the list element at this index 
   const listIndex = lists.findIndex((element) => element.id === listItem.id) 
@@ -19,6 +17,15 @@ const ListHeader = (props) => {
 
   let totalTasks = copyListItem.thingsToDo.length 
   let tasks = copyListItem.thingsToDo    
+
+    const handleActiveList = useCallback((e) => {
+    router.push("/") 
+    setActiveList(listItem) 
+
+    const header = e.currentTarget 
+
+    header.scrollIntoView({behavior: "smooth" , block: "center"})
+  }, [listItem, setActiveList, router]) 
 
   useEffect(() => {    
     let countFinishedTasks = 0  
@@ -42,22 +49,13 @@ const ListHeader = (props) => {
     }
   },[tasksFinishedCount, totalTasks, progressBarWidth]) 
 
-  const handleActiveList = useCallback((e) => {
-    router.push("/") 
-    setActiveList(listItem) 
-
-    const header = e.currentTarget 
-    header.scrollIntoView({behavior: "smooth" , inline: "center"})
-  }, [listItem, setActiveList, router]) 
-
-  
   return (
     <div
       key={index}
       className={activeClassName}
       data-listindex={index}
       data-listid={listItem.id}
-      onClick={(e) => {handleActiveList(e) }}
+      onClick={(e) => { handleActiveList(e) }}
     >
       <p className="whitespace-nowrap"> {listItem.name} </p>
       <p>

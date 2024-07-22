@@ -1,12 +1,10 @@
 import { PencilSquareIcon, CheckIcon, TrashIcon, PlusIcon } from "@heroicons/react/24/solid" 
-import { useContext, useCallback } from "react"
-import { ActiveListContext, ListContext, ShowNonFinishedContext } from "../pages/_app"
+import { useCallback } from "react"
 import Link from "next/link"
+import useAppContext from "../helpers/context/useAppContext"
 
 const ActionNav = () => {
-  const [lists, setLists] = useContext(ListContext)
-  const [activeList, _] = useContext(ActiveListContext)
-  const [showNonFinished, setShowNonFinished] = useContext(ShowNonFinishedContext)
+  const { lists, setLists, activeList, showNonFinished, setShowNonFinished } = useAppContext()
 
   const deleteList = useCallback(() => {
     const listHeader = document.querySelector(`.listHeader[data-listid="${activeList.id}"`)
@@ -18,8 +16,8 @@ const ActionNav = () => {
       listHeader.previousSibling.click()
     }
 
-    setLists(lists.filter(list => list.id !== activeList.id))
-  }, [lists, activeList, setLists]) 
+    setLists((prevState) =>prevState.filter(list => list.id !== activeList.id))
+  }, [activeList, setLists]) 
 
   return (
     <div

@@ -1,10 +1,10 @@
 import { Formik, Form } from "formik"
 import * as yup from "yup"
 import FormInput from "./FormInput"
-import { useCallback, useContext, useEffect, useState } from "react"
-import { ActiveListContext, ListContext } from "../pages/_app"
+import { useCallback, useEffect, useState } from "react"
 import { useRouter } from "next/router"
-
+import useAppContext from "../helpers/context/useAppContext"
+import Head from "next/head"
 
 const validationSchema = yup.object().shape({
   inputValue: yup.string().required("This field cannot be empty ! ").min(3, "Min 3 characters").max(100, "Max 100 characters.").label("List")
@@ -14,8 +14,7 @@ const FormComp = () => {
   const router = useRouter()
   const currentRoute = router.asPath.replace("/", "")
 
-  const [lists, setLists] = useContext(ListContext)
-  const [activeList, setActiveList] = useContext(ActiveListContext)
+  const { lists, setLists, activeList, setActiveList } = useAppContext()
 
   const [inputInfos, setInputInfos] = useState([])
 
@@ -77,7 +76,7 @@ const FormComp = () => {
           thingsToDo: []
         }
 
-        setLists((lists) => [...lists, newList])
+        setLists((prevState) => [...prevState, newList])
 
         setActiveList(newList)
 
@@ -91,14 +90,16 @@ const FormComp = () => {
         let updatedList = activeList
         updatedList.name = inputValue
 
-        setLists(lists.map((list) => {
-          if (list.id === updatedList.id) {
-            return updatedList
-          }
+        setLists((prevState) => 
+          prevState.map((list) => {
+            if (activeList.id === updatedList.id) {
+              return updatedList
+            }
 
-          return (list)
-        }))
-        
+            return list
+          })
+        )
+
         resetForm()
         router.push("/")
 
@@ -116,13 +117,15 @@ const FormComp = () => {
 
         setActiveList(updatedActiveList)
 
-        setLists(lists.map((list) => {
-          if (list.id === activeList.id) {
-            return activeList
-          }
-          
-          return list
-        }))
+        setLists((prevState) =>
+          prevState.map((list) => {
+              if (list.id === activeList.id) {
+                return activeList
+              }
+  
+              return list
+          })
+        )
 
         resetForm()
         router.push("/")
@@ -143,65 +146,89 @@ const FormComp = () => {
 
         setActiveList(updatedActiveListTasks)
 
-        setLists(lists.map((list) => {
-          if (list.id === activeList.id) {
+        setLists((prevState) =>
+          prevState.map((list) => {
+            if (list.id === activeList.id) {
             return activeList
-          }
+            }
 
-          return list
-        }))
-        
+            return list
+          })
+        )
+
         resetForm()
         router.push("/")
 
         break
-      }
+      }        
     }
-  }, [getAvailableId, currentRoute, setLists, activeList, lists, setActiveList, router])
+  }, [currentRoute, router, getAvailableId, setLists, setActiveList, activeList])
+
+  const getPageTitle = () => {
+    if (currentRoute === "addList") {
+      return "Ajouter une liste"
+    }
+
+    if (currentRoute === "editList") {
+      return `${activeList.name} : Modification` 
+    }
+
+    if (currentRoute === "addTask") {
+      return `${activeList.name} : Ajouter une tâche`
+    }
+
+    if (currentRoute.includes("editTask")) {
+      return `${activeList.name} : Modifier une tâche`
+    }
+  }
 
   return (
+    <>
+      <Head>
+        <title> {getPageTitle()} </title>
+      </Head>
 
-    <div>
-
-      {currentRoute.includes("edit") ? (
-        <p
-          className="text-center text-2xl mt-8 font-medium"
-        >
-          {currentRoute === "editList" ?
-            `Nom de la liste actuelle : ${activeList.name}` : null
-          }
-        </p>
-      ) :
-        null
-      }
-
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        <Form className="flex flex-col gap-4 p-4">
-
-          {currentRoute !== "" ?
-            <FormInput
-              name="inputValue"
-              label={inputInfos[0]}
-              placeholder={inputInfos[1]}
-              type="text"
-              className="border-2 border-indigo-700"
-            /> :
-            null
-          }
-
-          <button
-            type="submit"
-            className="bg-slate-700 w-fit mx-auto px-3 py-2 rounded-xl"
+      <div>
+        {currentRoute.includes("edit") ? (
+          <p
+            className="text-center text-2xl mt-8 font-medium"
           >
-            {currentRoute.includes("add") ? "Ajouter" : "Modifier"}
-          </button>
-        </Form>
-      </Formik>
-    </div>
+            {currentRoute === "editList" ?
+              `Nom de la liste actuelle : ${activeList.name}` : null
+            }
+          </p>
+        ) :
+          null
+        }
+
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          <Form className="flex flex-col gap-4 p-4">
+
+            {currentRoute !== "" ?
+              <FormInput
+                name="inputValue"
+                label={inputInfos[0]}
+                placeholder={inputInfos[1]}
+                type="text"
+                className="border-2 border-indigo-700"
+              /> :
+              null
+            }
+
+            <button
+              type="submit"
+              className="bg-slate-700 w-fit mx-auto px-3 py-2 rounded-xl"
+            >
+              {currentRoute.includes("add") ? "Ajouter" : "Modifier"}
+            </button>
+          </Form>
+        </Formik>
+      </div>
+    </>
   )
 }
 
