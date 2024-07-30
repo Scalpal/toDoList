@@ -50,13 +50,13 @@ const Task = () => {
   }, [activeList, setActiveList, setLists])  
 
   return (
-    <React.Fragment>
+    <main className={`flex flex-col xs:flex-col ${tasks.length > 0 ? "justify-end xs:justify-start" : "justify-center"} flex-1 overflow-scroll no-scrollbar`}>
       {tasks.length > 0 ? tasks.map(({ task, isFinished }, taskIndex) => {
         return (
           <div
             key={taskIndex}
             className={`
-              group/task items-center relative gap-8 bg-slate-800 border-b border-b-slate-500 px-4 
+              group/task items-center relative gap-8 bg-slate-800 border-b border-b-slate-500 px-4 w-full
               ${showNonFinished && isFinished === true ? "hidden" : "flex"}
             `}
           >
@@ -93,19 +93,15 @@ const Task = () => {
         ) 
       }) :
         (
-          <div
-            className="h-full flex flex-auto justify-center items-center"
+          <p
+            className="w-fit xs:text-5xl border-4 p-4 rounded-2xl bg-slate-800 whitespace-normal text-2xl mx-auto" 
           >
-            <p
-              className="text-5xl border-4 p-4 mt-24 rounded-2xl bg-slate-800 whitespace-normal" 
-            >
-            Liste vide pour le moment...
-            </p>
-          </div>
+          Liste vide pour le moment...
+          </p>
         )
 
       }
-    </React.Fragment>
+    </main>
   ) 
 } 
 

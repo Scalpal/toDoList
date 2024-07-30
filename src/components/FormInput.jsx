@@ -9,7 +9,7 @@ const FormInput = (props) => {
         ({ field, meta }) => (
           <label
             name={label}
-            className="flex flex-col gap-2 w-[50%] mx-auto mt-4"
+            className="flex flex-col gap-2 mx-auto mt-4"
           >
             <span className="text-sm font-bold">{label}</span>
             <input

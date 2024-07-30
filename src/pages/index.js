@@ -10,6 +10,7 @@ export default function Home() {
       <Head>
         <title>"{activeList ? activeList.name : ""}" list</title>
         <meta name="description" content="The best local to do list !" />
+        <link rel="icon" href="/favicon.png" />
       </Head>
 
       <Task />

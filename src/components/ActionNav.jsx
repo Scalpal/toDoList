@@ -21,7 +21,7 @@ const ActionNav = () => {
 
   return (
     <div
-      className="border-y border-slate-500 flex"
+      className="border-y border-slate-500 flex border-l-slate-500"
     >
       <div
         className="flex flex-row" 

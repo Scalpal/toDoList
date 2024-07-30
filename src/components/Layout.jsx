@@ -16,10 +16,10 @@ const Layout = (props) => {
 
   return (
     <div
-      className="h-auto min-h-screen bg-slate-900 text-white"
+      className="max-h-screen min-h-screen bg-slate-900 text-white xs:flex-col flex flex-col-reverse"
     >
       <div
-        className="sticky top-0 left-0 z-10 bg-slate-900"
+        className="bg-slate-900"
       >
         <nav
           className="flex gap-[1px] p-0 overflow-scroll no-scrollbar"

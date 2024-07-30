@@ -188,7 +188,7 @@ const FormComp = () => {
         <title> {getPageTitle()} </title>
       </Head>
 
-      <div>
+      <div className="m-auto w-[80%] xs:m-0 xs:mt-8 xs:mx-auto">
         {currentRoute.includes("edit") ? (
           <p
             className="text-center text-2xl mt-8 font-medium"
@@ -206,7 +206,7 @@ const FormComp = () => {
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          <Form className="flex flex-col gap-4 p-4">
+          <Form className="flex flex-col gap-4 p-4 w-full">
 
             {currentRoute !== "" ?
               <FormInput
