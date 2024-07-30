@@ -15,10 +15,11 @@ const FormInput = (props) => {
             <input
               {...field}
               {...otherProps}
+              autoComplete="off"
               placeholder={placeholder}
               className="border px-2 py-1 rounded-xl bg-slate-700"
             />
-            {meta.touched && meta.error ? (
+            {meta.touched && meta.error && field.value.length > 0 ? (
               <span className="text-sm text-red-600 flex gap-2 items-center">
                 {meta.error}
               </span>

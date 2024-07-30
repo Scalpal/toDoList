@@ -182,6 +182,12 @@ const FormComp = () => {
     }
   }
 
+  useEffect(() => {
+    const input = document.querySelector(`input[name="inputValue"]`)
+
+    input.focus()
+  }, [])
+
   return (
     <>
       <Head>
@@ -206,26 +212,29 @@ const FormComp = () => {
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          <Form className="flex flex-col gap-4 p-4 w-full">
+          {({ dirty, isValid }) => (
+            <Form className="flex flex-col gap-4 p-4 w-full">
 
-            {currentRoute !== "" ?
-              <FormInput
-                name="inputValue"
-                label={inputInfos[0]}
-                placeholder={inputInfos[1]}
-                type="text"
-                className="border-2 border-indigo-700"
-              /> :
-              null
-            }
+              {currentRoute !== "" ?
+                <FormInput
+                  name="inputValue"
+                  label={inputInfos[0]}
+                  placeholder={inputInfos[1]}
+                  type="text"
+                  className="border-2 border-indigo-700"
+                /> :
+                null
+              }
 
-            <button
-              type="submit"
-              className="bg-slate-700 w-fit mx-auto px-3 py-2 rounded-xl"
-            >
-              {currentRoute.includes("add") ? "Ajouter" : "Modifier"}
-            </button>
-          </Form>
+              <button
+                type="submit"
+                className={`bg-slate-700 duration-300 w-fit mx-auto px-3 py-2 rounded-xl ${!(dirty && isValid) ? "cursor-not-allowed opacity-30" : "cursor-pointer opacity-100"}`}
+                disabled={!(isValid && dirty)}
+              >
+                {currentRoute.includes("add") ? "Ajouter" : "Modifier"}
+              </button>
+            </Form>
+          )}
         </Formik>
       </div>
     </>
