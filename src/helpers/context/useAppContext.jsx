@@ -4,9 +4,9 @@ const AppContext = createContext(null)
 
 export const AppContextProvider = ({ children }) => { 
   const [lists, setLists] = useState([])
-  const [activeList, setActiveList] = useState(    {
+  const [activeList, setActiveList] = useState({
     id: 1,
-    name: "Renommez la !",
+    name: "",
     thingsToDo: []
   })
   const [showNonFinished, setShowNonFinished] = useState(false)
@@ -30,6 +30,7 @@ export const AppContextProvider = ({ children }) => {
     }
 
     setLists(JSON.parse(localStorageLists))
+    setActiveList(JSON.parse(localStorageLists)[0])
   }, [setLists])
 
   useEffect(() => {
@@ -38,9 +39,17 @@ export const AppContextProvider = ({ children }) => {
     }
   }, [lists])
 
-
   return (
-    <AppContext.Provider value={{ lists, setLists, activeList, setActiveList, showNonFinished, setShowNonFinished }}>
+    <AppContext.Provider
+      value={{
+        lists,
+        activeList,
+        showNonFinished,
+        setLists,
+        setActiveList,
+        setShowNonFinished
+      }}
+    >
       {children}
     </AppContext.Provider>
   )
