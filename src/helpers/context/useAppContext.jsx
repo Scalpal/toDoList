@@ -17,7 +17,7 @@ export const AppContextProvider = ({ children }) => {
     if (!localStorageLists) {
       const newInitialList = [
         {
-          id: 1,
+          id: 0,
           name: "Renommez la !",
           thingsToDo: []
         }

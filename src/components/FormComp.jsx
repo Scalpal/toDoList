@@ -90,9 +90,9 @@ const FormComp = () => {
         let updatedList = activeList
         updatedList.name = inputValue
 
-        setLists((prevState) => 
+        setLists((prevState) =>
           prevState.map((list) => {
-            if (activeList.id === updatedList.id) {
+            if (list.id === updatedList.id) {
               return updatedList
             }
 
